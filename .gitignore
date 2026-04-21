@@ -1,0 +1,17 @@
+node_modules
+dist
+.next
+.env
+.env.*
+!.env.example
+!.env.production.example
+.env.local
+apps/admin/.env.local
+*.log
+.DS_Store
+coverage
+.turbo
+.idea
+.vscode
+.claude
+next-env.d.ts

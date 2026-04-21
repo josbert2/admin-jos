@@ -1,0 +1,16 @@
+{
+	email hola@bookforce.io
+}
+
+api.josbert.dev {
+	encode gzip zstd
+	reverse_proxy api:4000
+	request_body {
+		max_size 12MB
+	}
+}
+
+admin.josbert.dev {
+	encode gzip zstd
+	reverse_proxy admin:5737
+}

@@ -1,0 +1,20 @@
+{
+  "name": "api-jos",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "pnpm -r --parallel dev",
+    "dev:api": "pnpm --filter api dev",
+    "dev:admin": "pnpm --filter admin dev",
+    "build": "pnpm -r build",
+    "db:up": "docker compose up -d mysql",
+    "db:down": "docker compose down",
+    "db:generate": "pnpm --filter api db:generate",
+    "db:migrate": "pnpm --filter api db:migrate",
+    "db:seed": "pnpm --filter api db:seed"
+  },
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": ">=20"
+  }
+}
