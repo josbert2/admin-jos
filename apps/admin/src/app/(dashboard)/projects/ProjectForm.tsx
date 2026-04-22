@@ -52,10 +52,7 @@ export function ProjectForm({ initial }: { initial?: Project }) {
     setError(null);
     try {
       const { id, createdAt, updatedAt, ...rest } = p as any;
-      const payload = {
-        ...rest,
-        date: p.date || undefined,
-      };
+      const payload = { ...rest, date: p.date || undefined };
       if (initial?.id) {
         await apiPatch(`/projects/${initial.id}`, payload);
       } else {
@@ -71,105 +68,112 @@ export function ProjectForm({ initial }: { initial?: Project }) {
   }
 
   return (
-    <form onSubmit={onSubmit} className="grid grid-cols-2 gap-4 max-w-4xl">
-      <Field label="Título">
-        <Input value={p.title ?? ''} onChange={(e) => set('title', e.target.value)} required />
-      </Field>
-      <Field label="Slug">
-        <Input value={p.slug ?? ''} onChange={(e) => set('slug', e.target.value)} required />
-      </Field>
-      <Field label="Cliente" className="col-span-1">
-        <Input value={p.client ?? ''} onChange={(e) => set('client', e.target.value)} />
-      </Field>
-      <Field label="Fecha" className="col-span-1">
-        <Input
-          type="date"
-          value={p.date ?? ''}
-          onChange={(e) => set('date', e.target.value)}
-        />
-      </Field>
-      <Field label="Resumen" className="col-span-2">
-        <Input value={p.summary ?? ''} onChange={(e) => set('summary', e.target.value)} />
-      </Field>
-      <Field label="Descripción" className="col-span-2">
-        <Textarea
-          value={p.description ?? ''}
-          onChange={(e) => set('description', e.target.value)}
-          rows={4}
-        />
-      </Field>
-      <Field label="Contenido (markdown)" className="col-span-2">
-        <Textarea
-          value={p.content ?? ''}
-          onChange={(e) => set('content', e.target.value)}
-          rows={8}
-        />
-      </Field>
-      <Field label="Cover image" className="col-span-2">
-        <SingleUploader
-          value={p.coverImage}
-          onChange={(url) => set('coverImage', url)}
-          folder={p.slug ? `projects/${p.slug}` : 'projects'}
-        />
-      </Field>
-      <Field label="Galería de imágenes" className="col-span-2">
-        <MultiUploader
-          value={(p.images as string[]) ?? []}
-          onChange={(urls) => set('images', urls)}
-          folder={p.slug ? `projects/${p.slug}` : 'projects'}
-        />
-      </Field>
-      <Field label="Tags (coma)">
-        <Input
-          value={fromList(p.tags as string[])}
-          onChange={(e) => set('tags', toList(e.target.value))}
-        />
-      </Field>
-      <Field label="Stack (coma)">
-        <Input
-          value={fromList(p.stack as string[])}
-          onChange={(e) => set('stack', toList(e.target.value))}
-        />
-      </Field>
-      <Field label="Link demo">
-        <Input value={p.linkLive ?? ''} onChange={(e) => set('linkLive', e.target.value)} />
-      </Field>
-      <Field label="Link repo">
-        <Input value={p.linkRepo ?? ''} onChange={(e) => set('linkRepo', e.target.value)} />
-      </Field>
-      <Field label="Orden">
-        <Input
-          type="number"
-          value={p.order ?? 0}
-          onChange={(e) => set('order', Number(e.target.value))}
-        />
-      </Field>
-      <div className="flex items-center gap-6 col-span-2">
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
+    <form onSubmit={onSubmit} className="max-w-3xl space-y-10">
+      <Section title="Info básica">
+        <Row>
+          <Field label="Título">
+            <Input value={p.title ?? ''} onChange={(e) => set('title', e.target.value)} required />
+          </Field>
+          <Field label="Slug">
+            <Input value={p.slug ?? ''} onChange={(e) => set('slug', e.target.value)} required />
+          </Field>
+        </Row>
+        <Row>
+          <Field label="Cliente">
+            <Input value={p.client ?? ''} onChange={(e) => set('client', e.target.value)} />
+          </Field>
+          <Field label="Fecha">
+            <Input type="date" value={p.date ?? ''} onChange={(e) => set('date', e.target.value)} />
+          </Field>
+        </Row>
+        <Field label="Resumen">
+          <Input value={p.summary ?? ''} onChange={(e) => set('summary', e.target.value)} />
+        </Field>
+        <Field label="Descripción">
+          <Textarea
+            rows={3}
+            value={p.description ?? ''}
+            onChange={(e) => set('description', e.target.value)}
+          />
+        </Field>
+        <Field label="Contenido (markdown)">
+          <Textarea
+            rows={8}
+            value={p.content ?? ''}
+            onChange={(e) => set('content', e.target.value)}
+          />
+        </Field>
+      </Section>
+
+      <Section title="Media">
+        <Field label="Portada">
+          <SingleUploader
+            value={p.coverImage}
+            onChange={(url) => set('coverImage', url)}
+            folder={p.slug ? `projects/${p.slug}` : 'projects'}
+          />
+        </Field>
+        <Field label="Galería">
+          <MultiUploader
+            value={(p.images as string[]) ?? []}
+            onChange={(urls) => set('images', urls)}
+            folder={p.slug ? `projects/${p.slug}` : 'projects'}
+          />
+        </Field>
+      </Section>
+
+      <Section title="Metadata">
+        <Row>
+          <Field label="Tags (coma)">
+            <Input
+              value={fromList(p.tags as string[])}
+              onChange={(e) => set('tags', toList(e.target.value))}
+            />
+          </Field>
+          <Field label="Stack (coma)">
+            <Input
+              value={fromList(p.stack as string[])}
+              onChange={(e) => set('stack', toList(e.target.value))}
+            />
+          </Field>
+        </Row>
+        <Row>
+          <Field label="Link demo">
+            <Input value={p.linkLive ?? ''} onChange={(e) => set('linkLive', e.target.value)} />
+          </Field>
+          <Field label="Link repo">
+            <Input value={p.linkRepo ?? ''} onChange={(e) => set('linkRepo', e.target.value)} />
+          </Field>
+        </Row>
+        <Field label="Orden">
+          <Input
+            type="number"
+            value={p.order ?? 0}
+            onChange={(e) => set('order', Number(e.target.value))}
+            className="max-w-[120px]"
+          />
+        </Field>
+        <div className="flex items-center gap-6 pt-2">
+          <Toggle
             checked={!!p.isBest}
-            onChange={(e) => set('isBest', e.target.checked)}
+            onChange={(v) => set('isBest', v)}
+            label="Destacado"
           />
-          Destacado (best project)
-        </label>
-        <label className="flex items-center gap-2 text-sm">
-          <input
-            type="checkbox"
+          <Toggle
             checked={!!p.isPublished}
-            onChange={(e) => set('isPublished', e.target.checked)}
+            onChange={(v) => set('isPublished', v)}
+            label="Publicado"
           />
-          Publicado
-        </label>
-      </div>
+        </div>
+      </Section>
 
-      {error && <p className="col-span-2 text-sm text-destructive">{error}</p>}
+      {error && <p className="text-sm text-destructive">{error}</p>}
 
-      <div className="col-span-2 flex gap-2">
+      <div className="flex items-center gap-3 pt-4 border-t">
         <Button type="submit" disabled={saving}>
           {saving ? 'Guardando…' : 'Guardar'}
         </Button>
-        <Button type="button" variant="outline" onClick={() => router.back()}>
+        <Button type="button" variant="ghost" onClick={() => router.back()}>
           Cancelar
         </Button>
       </div>
@@ -177,19 +181,46 @@ export function ProjectForm({ initial }: { initial?: Project }) {
   );
 }
 
-function Field({
-  label,
-  children,
-  className,
-}: {
-  label: string;
-  children: React.ReactNode;
-  className?: string;
-}) {
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className={`flex flex-col gap-2 ${className ?? ''}`}>
+    <section>
+      <h2 className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-5">{title}</h2>
+      <div className="space-y-5">{children}</div>
+    </section>
+  );
+}
+
+function Row({ children }: { children: React.ReactNode }) {
+  return <div className="grid grid-cols-2 gap-5">{children}</div>;
+}
+
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div className="flex flex-col gap-2">
       <Label>{label}</Label>
       {children}
     </div>
+  );
+}
+
+function Toggle({
+  checked,
+  onChange,
+  label,
+}: {
+  checked: boolean;
+  onChange: (v: boolean) => void;
+  label: string;
+}) {
+  return (
+    <label className="flex items-center gap-2 text-sm cursor-pointer select-none">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="h-4 w-4 rounded border-input"
+      />
+      {label}
+    </label>
   );
 }

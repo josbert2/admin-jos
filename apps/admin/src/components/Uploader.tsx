@@ -2,7 +2,6 @@
 
 import { useRef, useState } from 'react';
 import { Upload, X, Loader2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { getToken } from '@/lib/api';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
@@ -23,10 +22,7 @@ async function uploadFile(file: File, folder?: string): Promise<UploadResult> {
     headers: { Authorization: `Bearer ${getToken()}` },
     body: form,
   });
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(text || 'upload failed');
-  }
+  if (!res.ok) throw new Error((await res.text()) || 'upload failed');
   return res.json();
 }
 
@@ -48,7 +44,7 @@ export function SingleUploader({
     setError(null);
     try {
       const r = await uploadFile(file, folder);
-      onChange(r.url || `(falta R2_PUBLIC_URL) key=${r.key}`);
+      onChange(r.url);
     } catch (err: any) {
       setError(err?.message ?? 'Error');
     } finally {
@@ -57,43 +53,47 @@ export function SingleUploader({
   }
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center gap-3">
-        {value ? (
-          <div className="relative">
-            <img src={value} alt="" className="h-20 w-32 rounded object-cover border" />
-            <button
-              type="button"
-              onClick={() => onChange('')}
-              className="absolute -top-1 -right-1 rounded-full bg-destructive p-0.5 text-destructive-foreground"
-            >
-              <X className="h-3 w-3" />
-            </button>
-          </div>
-        ) : (
-          <div className="h-20 w-32 rounded border border-dashed flex items-center justify-center text-xs text-muted-foreground">
-            sin imagen
-          </div>
-        )}
-        <div className="flex flex-col gap-1">
-          <input
-            ref={input}
-            type="file"
-            accept="image/*,application/pdf"
-            hidden
-            onChange={(e) => {
-              const f = e.target.files?.[0];
-              if (f) handle(f);
-              e.target.value = '';
-            }}
-          />
-          <Button type="button" size="sm" variant="outline" onClick={() => input.current?.click()} disabled={loading}>
-            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
-            {loading ? 'Subiendo…' : 'Subir'}
-          </Button>
-          {error && <p className="text-xs text-destructive">{error}</p>}
+    <div className="flex items-start gap-3">
+      {value ? (
+        <div className="relative">
+          <img src={value} alt="" className="h-24 w-36 rounded-md object-cover border" />
+          <button
+            type="button"
+            onClick={() => onChange('')}
+            className="absolute top-1.5 right-1.5 rounded-full bg-background/90 border p-0.5 hover:bg-muted"
+          >
+            <X className="h-3 w-3" />
+          </button>
         </div>
-      </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => input.current?.click()}
+          disabled={loading}
+          className="h-24 w-36 rounded-md border border-dashed flex flex-col items-center justify-center gap-1 text-xs text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
+        >
+          {loading ? (
+            <Loader2 className="h-4 w-4 animate-spin" />
+          ) : (
+            <>
+              <Upload className="h-4 w-4" />
+              <span>subir</span>
+            </>
+          )}
+        </button>
+      )}
+      <input
+        ref={input}
+        type="file"
+        accept="image/*,application/pdf"
+        hidden
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) handle(f);
+          e.target.value = '';
+        }}
+      />
+      {error && <p className="text-xs text-destructive self-center">{error}</p>}
     </div>
   );
 }
@@ -133,15 +133,15 @@ export function MultiUploader({
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="space-y-2">
       <div className="flex flex-wrap gap-2">
         {value.map((url, i) => (
-          <div key={i} className="relative">
-            <img src={url} alt="" className="h-20 w-20 rounded object-cover border" />
+          <div key={i} className="relative group">
+            <img src={url} alt="" className="h-20 w-20 rounded-md object-cover border" />
             <button
               type="button"
               onClick={() => removeAt(i)}
-              className="absolute -top-1 -right-1 rounded-full bg-destructive p-0.5 text-destructive-foreground"
+              className="absolute top-1 right-1 rounded-full bg-background/90 border p-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
             >
               <X className="h-3 w-3" />
             </button>
@@ -151,7 +151,7 @@ export function MultiUploader({
           type="button"
           onClick={() => input.current?.click()}
           disabled={loading}
-          className="h-20 w-20 rounded border border-dashed flex items-center justify-center text-xs text-muted-foreground hover:bg-muted/30"
+          className="h-20 w-20 rounded-md border border-dashed flex items-center justify-center text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
         >
           {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <Upload className="h-4 w-4" />}
         </button>
