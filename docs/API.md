@@ -174,6 +174,62 @@ curl -X POST "https://api.josbert.dev/api/upload?folder=projects/nuevo" \
 
 ---
 
+### Templates (`/api/templates`) · todo requiere token
+
+Colección **privada** de templates de landings. Todos los endpoints requieren autenticación.
+
+**Filtros** en `GET /api/templates`:
+- `?q=texto` — busca en título, descripción y notas
+- `?favorite=true` — solo favoritos
+- `?category=App` — match exacto en el array JSON `categories`
+- `?tag=dark` — match exacto en el array JSON `tags`
+
+```bash
+curl -H "Authorization: Bearer jos_..." \
+  "https://api.josbert.dev/api/templates?favorite=true&q=saas"
+```
+
+**Endpoints:**
+
+| Método | Path | Descripción |
+|--------|------|-------------|
+| GET | `/api/templates` | Lista con filtros |
+| GET | `/api/templates/:id` | Por id |
+| GET | `/api/templates/slug/:slug` | Por slug |
+| POST | `/api/templates` | Crear |
+| PATCH | `/api/templates/:id` | Actualizar |
+| POST | `/api/templates/:id/favorite` | Toggle favorito |
+| DELETE | `/api/templates/:id` | Borrar |
+
+**Campos:**
+
+| Campo | Tipo | Notas |
+|-------|------|-------|
+| `title` | string | requerido |
+| `slug` | string | requerido, único |
+| `description` | string | |
+| `notes` | string | markdown, notas personales |
+| `websiteUrl` | string | demo en vivo |
+| `sourceUrl` | string | dónde lo encontraste |
+| `authorName` / `authorUrl` / `authorImage` | string | crédito al creador |
+| `coverImage` / `mobileImage` | string | URLs R2 (desktop + mobile) |
+| `images` | string[] | galería extra |
+| `categories` | string[] | `["App","Landing Page"]` |
+| `styles` | string[] | `["Gradients","Dark"]` |
+| `sections` | string[] | `["Hero","FAQ","Pricing"]` |
+| `features` | string[] | `["Sticky Nav","Long Scrolling"]` |
+| `typefaces` | string[] | `["Instrument Serif"]` |
+| `tags` | string[] | libres |
+| `colors` | string[] | paleta `["#000","#fff"]` |
+| `stack` | string[] | tech usada |
+| `publishedAt` | date | fecha original de publicación |
+| `price` | `"free"` \| `"paid"` | |
+| `rating` | int 1-5 | rating personal |
+| `isFavorite` | bool | |
+| `order` | int | orden manual |
+
+---
+
 ### Tokens (`/api/tokens`) · solo JWT (UI admin)
 
 Este recurso se gestiona **solo con JWT de administrador**, no con API tokens (para evitar que un token pueda fabricar otros).

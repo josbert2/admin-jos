@@ -68,6 +68,43 @@ export const skills = mysqlTable('skills', {
   updatedAt: timestamp('updated_at').defaultNow().onUpdateNow().notNull(),
 });
 
+export const templates = mysqlTable('templates', {
+  id: int('id').autoincrement().primaryKey(),
+  title: varchar('title', { length: 200 }).notNull(),
+  slug: varchar('slug', { length: 200 }).notNull().unique(),
+  description: text('description'),
+  notes: text('notes'),
+
+  websiteUrl: varchar('website_url', { length: 500 }),
+  sourceUrl: varchar('source_url', { length: 500 }),
+
+  authorName: varchar('author_name', { length: 200 }),
+  authorUrl: varchar('author_url', { length: 500 }),
+  authorImage: varchar('author_image', { length: 500 }),
+
+  coverImage: varchar('cover_image', { length: 500 }),
+  mobileImage: varchar('mobile_image', { length: 500 }),
+  images: json('images').$type<string[]>().default([]),
+
+  sections: json('sections').$type<string[]>().default([]),
+  features: json('features').$type<string[]>().default([]),
+  categories: json('categories').$type<string[]>().default([]),
+  styles: json('styles').$type<string[]>().default([]),
+  typefaces: json('typefaces').$type<string[]>().default([]),
+  tags: json('tags').$type<string[]>().default([]),
+  colors: json('colors').$type<string[]>().default([]),
+  stack: json('stack').$type<string[]>().default([]),
+
+  publishedAt: date('published_at', { mode: 'string' }),
+  price: mysqlEnum('price', ['free', 'paid']),
+  rating: int('rating'),
+  isFavorite: boolean('is_favorite').default(false).notNull(),
+  order: int('order').default(0).notNull(),
+
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+  updatedAt: timestamp('updated_at').defaultNow().onUpdateNow().notNull(),
+});
+
 export const apiTokens = mysqlTable('api_tokens', {
   id: int('id').autoincrement().primaryKey(),
   name: varchar('name', { length: 120 }).notNull(),
@@ -90,6 +127,7 @@ export const contactMessages = mysqlTable('contact_messages', {
 
 export type User = typeof users.$inferSelect;
 export type ApiToken = typeof apiTokens.$inferSelect;
+export type Template = typeof templates.$inferSelect;
 export type Project = typeof projects.$inferSelect;
 export type Experience = typeof experiences.$inferSelect;
 export type Skill = typeof skills.$inferSelect;

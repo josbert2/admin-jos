@@ -57,6 +57,37 @@ export interface ContactMessage {
   createdAt: string;
 }
 
+export interface Template {
+  id: number;
+  title: string;
+  slug: string;
+  description: string | null;
+  notes: string | null;
+  websiteUrl: string | null;
+  sourceUrl: string | null;
+  authorName: string | null;
+  authorUrl: string | null;
+  authorImage: string | null;
+  coverImage: string | null;
+  mobileImage: string | null;
+  images: string[];
+  sections: string[];
+  features: string[];
+  categories: string[];
+  styles: string[];
+  typefaces: string[];
+  tags: string[];
+  colors: string[];
+  stack: string[];
+  publishedAt: string | null;
+  price: 'free' | 'paid' | null;
+  rating: number | null;
+  isFavorite: boolean;
+  order: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface ApiToken {
   id: number;
   name: string;

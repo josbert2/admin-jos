@@ -11,6 +11,7 @@ const nav = [
   { href: '/experiences', label: 'Experience' },
   { href: '/skills', label: 'Skills' },
   { href: '/messages', label: 'Messages' },
+  { href: '/templates', label: 'Templates' },
   { href: '/tokens', label: 'Tokens' },
 ];
 

@@ -15,6 +15,13 @@
       "when": 1776878799758,
       "tag": "0001_lumpy_lenny_balinger",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1776880107142,
+      "tag": "0002_stale_toro",
+      "breakpoints": true
     }
   ]
 }
