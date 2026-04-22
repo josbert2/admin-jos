@@ -7,6 +7,7 @@ import { ExperiencesModule } from './experiences/experiences.module';
 import { SkillsModule } from './skills/skills.module';
 import { ContactModule } from './contact/contact.module';
 import { UploadModule } from './upload/upload.module';
+import { TokensModule } from './tokens/tokens.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { UploadModule } from './upload/upload.module';
     SkillsModule,
     ContactModule,
     UploadModule,
+    TokensModule,
   ],
 })
 export class AppModule {}

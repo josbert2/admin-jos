@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { CreateProjectDto, UpdateProjectDto } from './projects.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiOrJwtGuard as JwtAuthGuard } from '../auth/api-or-jwt.guard';
 
 @Controller('projects')
 export class ProjectsController {

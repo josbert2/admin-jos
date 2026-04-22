@@ -57,6 +57,15 @@ export interface ContactMessage {
   createdAt: string;
 }
 
+export interface ApiToken {
+  id: number;
+  name: string;
+  prefix: string;
+  lastUsedAt: string | null;
+  revokedAt: string | null;
+  createdAt: string;
+}
+
 export interface AuthUser {
   id: number;
   email: string;

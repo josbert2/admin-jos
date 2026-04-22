@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ExperiencesService } from './experiences.service';
 import { CreateExperienceDto, UpdateExperienceDto } from './experiences.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiOrJwtGuard as JwtAuthGuard } from '../auth/api-or-jwt.guard';
 
 @Controller('experiences')
 export class ExperiencesController {

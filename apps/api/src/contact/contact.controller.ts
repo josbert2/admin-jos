@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { ContactService } from './contact.service';
 import { CreateContactDto, UpdateContactStatusDto } from './contact.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiOrJwtGuard as JwtAuthGuard } from '../auth/api-or-jwt.guard';
 
 @Controller('contact')
 export class ContactController {

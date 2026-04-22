@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { SkillsService } from './skills.service';
 import { CreateSkillDto, UpdateSkillDto } from './skills.dto';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiOrJwtGuard as JwtAuthGuard } from '../auth/api-or-jwt.guard';
 
 @Controller('skills')
 export class SkillsController {

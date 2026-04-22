@@ -68,6 +68,16 @@ export const skills = mysqlTable('skills', {
   updatedAt: timestamp('updated_at').defaultNow().onUpdateNow().notNull(),
 });
 
+export const apiTokens = mysqlTable('api_tokens', {
+  id: int('id').autoincrement().primaryKey(),
+  name: varchar('name', { length: 120 }).notNull(),
+  prefix: varchar('prefix', { length: 16 }).notNull(),
+  tokenHash: varchar('token_hash', { length: 64 }).notNull().unique(),
+  lastUsedAt: timestamp('last_used_at'),
+  revokedAt: timestamp('revoked_at'),
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+});
+
 export const contactMessages = mysqlTable('contact_messages', {
   id: int('id').autoincrement().primaryKey(),
   name: varchar('name', { length: 200 }).notNull(),
@@ -79,6 +89,7 @@ export const contactMessages = mysqlTable('contact_messages', {
 });
 
 export type User = typeof users.$inferSelect;
+export type ApiToken = typeof apiTokens.$inferSelect;
 export type Project = typeof projects.$inferSelect;
 export type Experience = typeof experiences.$inferSelect;
 export type Skill = typeof skills.$inferSelect;

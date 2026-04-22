@@ -9,6 +9,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "tsx --env-file=../../.env src/db/migrate.ts",
     "db:seed": "tsx --env-file=../../.env src/db/seed.ts",
+    "db:seed:data": "tsx --env-file=../../.env src/db/seed-data.ts",
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {

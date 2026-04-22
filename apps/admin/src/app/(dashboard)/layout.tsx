@@ -11,6 +11,7 @@ const nav = [
   { href: '/experiences', label: 'Experience' },
   { href: '/skills', label: 'Skills' },
   { href: '/messages', label: 'Messages' },
+  { href: '/tokens', label: 'Tokens' },
 ];
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

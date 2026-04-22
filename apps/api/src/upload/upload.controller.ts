@@ -10,7 +10,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { ApiOrJwtGuard as JwtAuthGuard } from '../auth/api-or-jwt.guard';
 import { UploadService } from './upload.service';
 
 const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
